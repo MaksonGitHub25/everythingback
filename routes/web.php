@@ -13,4 +13,5 @@ Route::prefix('customers')->group(function () {
 Route::prefix('products')->group(function () {
     Route::get('/', [App\Http\Controllers\API\ProductsController::class, 'getData']);
     Route::post('/addNewProduct', [App\Http\Controllers\API\ProductsController::class, 'addNewProduct']);
+    Route::get('/image/{filename}', [App\Http\Controllers\API\ProductsController::class, 'getImage']);
 });

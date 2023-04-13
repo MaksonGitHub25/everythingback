@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
+use Faker\Core\File;
+use http\Env\Response;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -35,5 +37,13 @@ class ProductsController extends Controller
         ]);
 
         return response()->json(['title' => $title, 'description' => $description, 'photo_id' => $fileName, 'creator' => $creator, 'price' => $price])->header('Content-Type', 'application/json');
+    }
+
+    public function getImage($filename)
+    {
+        $file = Storage::get('/photos/' . $filename);
+        $type = Storage::mimeType('/photos/' . $filename);
+
+        return response($file, 200)->header('Content-Type', $type);
     }
 }

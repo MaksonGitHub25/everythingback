@@ -31,6 +31,22 @@ class CustomersController extends Controller
         $login = $request->input('login');
         $password = $request->input('password');
 
+        $customers = DB::table('customers')->get();
+        $customers = json_decode(json_encode($customers));
+
+
+
+        for ($i = 0; $i < count($customers); $i++)
+        {
+            if ($customers[$i]->email === $email) {
+                return response()->json(['error' => 'User with this email already exists']);
+            }
+
+            if ($customers[$i]->login === $login) {
+                return response()->json(['error' => 'User with this login already exists']);
+            }
+        }
+
         DB::table('customers')->insert([
             'name' => $name,
             'age' => $age,
