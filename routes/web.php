@@ -12,6 +12,12 @@ Route::prefix('customers')->group(function () {
 
 Route::prefix('products')->group(function () {
     Route::get('/', [App\Http\Controllers\API\ProductsController::class, 'getData']);
+    Route::get('/{productId}', [App\Http\Controllers\API\ProductsController::class, 'getProduct']);
     Route::post('/addNewProduct', [App\Http\Controllers\API\ProductsController::class, 'addNewProduct']);
     Route::get('/image/{filename}', [App\Http\Controllers\API\ProductsController::class, 'getImage']);
+    Route::post('/deleteProduct/{productId}', [App\Http\Controllers\API\ProductsController::class, 'deleteProduct']);
+});
+
+Route::prefix('admins')->group(function () {
+    Route::post('/checkAdminData', [App\Http\Controllers\API\AdminController::class, 'checkAdminData']);
 });
