@@ -10,6 +10,13 @@ Route::prefix('customers')->group(function () {
     Route::post('/dataLogin', [\App\Http\Controllers\API\CustomersController::class, 'loginUserByUserData']);
 });
 
+Route::prefix('googleCustomers')->group(function () {
+    Route::get('/', [App\Http\Controllers\API\GoogleCustomersController::class, 'getData']);
+    Route::post('/register', [\App\Http\Controllers\Api\GoogleCustomersController::class, 'register']);
+    Route::post('/login', [\App\Http\Controllers\Api\GoogleCustomersController::class, 'login']);
+    Route::post('/jwtLogin', [\App\Http\Controllers\API\GoogleCustomersController::class, 'loginByJWT']);
+});
+
 Route::prefix('products')->group(function () {
     Route::get('/', [App\Http\Controllers\API\ProductsController::class, 'getData']);
     Route::get('/{productId}', [App\Http\Controllers\API\ProductsController::class, 'getProduct']);

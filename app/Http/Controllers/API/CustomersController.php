@@ -26,15 +26,13 @@ class CustomersController extends Controller
     public function saveUserData(Request $request)
     {
         $name = $request->input('name');
-        $age = $request->input('age');
+        $dateOfBirth = $request->input('dateOfBirth');
         $email = $request->input('email');
         $login = $request->input('login');
         $password = $request->input('password');
 
         $customers = DB::table('customers')->get();
         $customers = json_decode(json_encode($customers));
-
-
 
         for ($i = 0; $i < count($customers); $i++)
         {
@@ -49,7 +47,7 @@ class CustomersController extends Controller
 
         DB::table('customers')->insert([
             'name' => $name,
-            'age' => $age,
+            'dateOfBirth' => $dateOfBirth,
             'email' => $email,
             'login' => $login,
             'password' => $password,
@@ -59,14 +57,14 @@ class CustomersController extends Controller
     public function registerUser(Request $request)
     {
         $name = $request->input('name');
-        $age = $request->input('age');
+        $dateOfBirth = $request->input('dateOfBirth');
         $email = $request->input('email');
         $login = $request->input('login');
         $password = $request->input('password');
 
         $payload = [
             'name' => $name,
-            'age' => $age,
+            'dateOfBirth' => $dateOfBirth,
             'email' => $email,
             'login' => $login,
             'password' => $password
