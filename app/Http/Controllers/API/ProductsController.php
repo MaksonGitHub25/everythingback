@@ -12,7 +12,16 @@ class ProductsController extends Controller
     public function getData(): \Illuminate\Http\JsonResponse
     {
         $products = DB::table('products')->get();
-        return response()->json($products)->header('Content-Type', 'application/json');
+        $response = [];
+
+        for ($i=0; $i < count($products); $i++) {
+            $product = $products[$i];
+            $product->comments = json_decode($product->comments);
+
+            array_push($response, $product);
+        }
+
+        return response()->json($response)->header('Content-Type', 'application/json');
     }
 
     public function getProduct($productId)
@@ -93,5 +102,76 @@ class ProductsController extends Controller
         }
 
         return response()->json(['success' => false, 'errorMessage' => "Product with this uniqueProductId doesn't exist"]);
+    }
+
+    public function addCommentToProduct(Request $request, $productId): \Illuminate\Http\JsonResponse
+    {
+        if (!DB::table('products')->where('uniqueProductId', $productId)->exists()) {
+            return response()->json(['success' => false]);
+        }
+
+        $newComment = [
+            'name' => $request->name,
+        	'date' => $request->date,
+            'picture' => $request->picture,
+            'text' => $request->text,
+            'uniqueCommentId' => $request->uniqueCommentId,
+        ];
+
+        $product = DB::table('products')
+                    ->where('uniqueProductId', $productId)
+                    ->first();
+
+        $allComments = json_decode($product->comments);
+        array_push($allComments, $newComment);
+
+        DB::table('products')
+            ->where('uniqueProductId', $productId)
+            ->update(array('comments' => $allComments));
+
+        return response()->json(['success' => true, 'message' => "Comment was added successful!"]);
+    }
+
+    public function deleteComment($commentId): \Illuminate\Http\JsonResponse
+    {
+        $products = DB::table('products')->get();
+        $productWithThisCommentId = '';
+
+        for ($i=0; $i < count($products); $i++) {
+            $product = $products[$i];
+            $comments = json_decode($product->comments);
+
+            for ($j=0; $j < count($comments); $j++) {
+                $comment = $comments[$j];
+
+                if ($comment->uniqueCommentId === $commentId) {
+                    $productWithThisCommentId = $product->uniqueProductId;
+                }
+            }
+        }
+
+        if ($productWithThisCommentId === '') {
+            return response()->json(['success' => false, 'message' => "Product with this comment or this commentId doesn't exist"]);
+        }
+
+        $productWithThisComment = DB::table('products')
+            ->where('uniqueProductId', $productWithThisCommentId)
+            ->first();
+
+        $newComments = json_decode($productWithThisComment->comments);
+
+        for ($i=0; $i < count($newComments); $i++) {
+            $newComment = $newComments[$i];
+
+            if ($newComment->uniqueCommentId === $commentId) {
+                array_splice($newComments, $i, 1);
+            }
+        }
+
+        DB::table('products')
+            ->where('uniqueProductId', $productWithThisCommentId)
+            ->update(array('comments' => $newComments));
+
+        return response()->json(['success' => true, 'message' => 'Deleted comment with Id '.$commentId]);
     }
 }
