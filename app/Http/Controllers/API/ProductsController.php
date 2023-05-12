@@ -53,6 +53,7 @@ class ProductsController extends Controller
         $creator = $request->input('creator');
         $price = $request->input('price');
         $uniqueProductId = $request->input('uniqueProductId');
+        $comments = $request->input('comments');
 
         $products = DB::table('products')->get();
         $alreadyHaveThisProduct = false;
@@ -81,9 +82,10 @@ class ProductsController extends Controller
             'creator' => $creator,
             'price' => $price,
             'uniqueProductId' => $uniqueProductId,
+            'comments' => $comments,
         ]);
 
-        return response()->json(['success' => true, 'data' => ['title' => $title, 'description' => $description, 'photo_id' => $fileName, 'creator' => $creator, 'price' => $price, 'uniqueProductId' => $uniqueProductId]]);
+        return response()->json(['success' => true, 'data' => ['title' => $title, 'description' => $description, 'photo_id' => $fileName, 'creator' => $creator, 'price' => $price, 'uniqueProductId' => $uniqueProductId, 'comments' => $comments]]);
     }
 
     public function getImage($filename)
