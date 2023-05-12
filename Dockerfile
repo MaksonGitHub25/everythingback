@@ -3,5 +3,6 @@
 FROM node:18-alpine
 WORKDIR /app
 COPY . .
-RUN yarn install
+RUN npm install
+CMD ["php artisan serve"]
 EXPOSE 8000
