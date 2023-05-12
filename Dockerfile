@@ -3,6 +3,6 @@
 FROM node:18-alpine
 WORKDIR /
 COPY . .
-RUN npm install
+RUN composer install
 CMD ["php artisan serve"]
 EXPOSE 8000
