@@ -11,17 +11,17 @@ class ProductsController extends Controller
 {
     public function getData(): \Illuminate\Http\JsonResponse
     {
-        $products = DB::table('products')->get();
-        $response = [];
+        // $products = DB::table('products')->get();
+        // $response = [];
 
-        for ($i=0; $i < count($products); $i++) {
-            $product = $products[$i];
-            $product->comments = json_decode($product->comments);
+        // for ($i=0; $i < count($products); $i++) {
+        //     $product = $products[$i];
+        //     $product->comments = json_decode($product->comments);
 
-            array_push($response, $product);
-        }
+        //     array_push($response, $product);
+        // }
 
-        return response()->json($response)->header('Content-Type', 'application/json');
+        return response()->json(['fuck' => 'fuck u'])->header('Content-Type', 'application/json');
     }
 
     public function getProduct($productId)
