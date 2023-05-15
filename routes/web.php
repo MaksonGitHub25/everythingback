@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Mail\SuccessSignUp;
 
 Route::prefix('customers')->group(function () {
     Route::get('/', [App\Http\Controllers\API\CustomersController::class, 'getData']);
@@ -35,4 +36,11 @@ Route::prefix('feedback')->group(function () {
     Route::get('/', [App\Http\Controllers\API\FeedbackController::class, 'getFeedbacks']);
     Route::post('/addNewFeedback', [App\Http\Controllers\API\FeedbackController::class, 'addNewFeedback']);
     Route::post('/deleteFeedback/{feedbackId}', [App\Http\Controllers\API\FeedbackController::class, 'deleteFeedback']);
+});
+
+Route::prefix('mail')->group(function () {
+    Route::get('/', function () {
+        return view('successSignUp');
+    });
+    Route::post('/', [App\Http\Controllers\API\MailController::class, 'sendSuccessSignUpEmail']);
 });

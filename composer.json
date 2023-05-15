@@ -6,16 +6,18 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "ext-fileinfo": "*",
         "firebase/php-jwt": "^6.4",
         "gree/jose": "^2.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
+        "laravel/sanctum": "*",
         "laravel/tinker": "^2.8",
         "php-open-source-saver/jwt-auth": "^2.1",
         "phpseclib/phpseclib": "^3.0",
-        "tymon/jwt-auth": "^2.0",
-      "ext-fileinfo": "*"
+        "symfony/http-client": "*",
+        "symfony/mailgun-mailer": "*",
+        "tymon/jwt-auth": "^2.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
